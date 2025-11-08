@@ -145,12 +145,13 @@
       <!-- SPIKE Legacy -->
       <section class="card">
         <div>
+          <div style="color:#f5d000; font-weight:700; margin-bottom:6px;">⚠️ Unsupported. Use SPIKE Prime v3 or use the SPIKE Legacy app</div>
           <div class="pill"><div class="icon l">L</div> SPIKE Legacy</div>
           <h2>SPIKE Legacy (Web)</h2>
           <p>Launches the legacy SPIKE page (useful for older hubs). If your district has a specific URL, replace it below in code.</p>
         </div>
         <div class="actions">
-          <button class="btn legacy" onclick="openApp('https://education.lego.com/en-us/support/spike-legacy/')">Open Legacy</button>
+          <button class="btn legacy" disabled style="opacity:0.5; cursor:not-allowed;">Open Legacy</button>
           <button class="btn" onclick="copyUrl('https://education.lego.com/en-us/support/spike-legacy/')">Copy URL</button>
         </div>
       </section>
@@ -180,7 +181,6 @@
   <script>
     // Open URL in a clean popup window. ChromeOS will treat this as a separate window.
     function openApp(url){
-      // Features: new window, minimal UI. Actual fullscreen must be user-initiated (F4/F11) by platform policy.
       const w = window.open(url, '_blank', 'noopener,noreferrer');
     }
     // Copy helper
@@ -206,9 +206,7 @@
     }
     // Exit button — works if the page is opened as an installed app or from a script/window.open
     function tryExit(){
-      // Best effort close:
       window.close();
-      // If the browser won’t allow closing this tab, at least hint:
       toast('If this tab doesn’t close, press Ctrl+W.');
     }
   </script>
