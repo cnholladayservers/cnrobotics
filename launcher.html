@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Robotics Launcher</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Comfortaa from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#121a2a;
+      --card2:#0f1726;
+      --text:#e8eefc;
+      --muted:#a9b4d0;
+      --brand1:#2b78e4; /* SPIKE */
+      --brand2:#7a57d1; /* Legacy (distinct) */
+      --brand3:#19a974; /* Ozobot */
+      --danger:#e53935;
+      --sep:#24324d;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background: radial-gradient(1200px 800px at 80% -20%, #1a2450 0%, #0b1220 55%, #0b1220 100%);
+      color:var(--text);
+      font-family:"Comfortaa", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      letter-spacing:.2px;
+    }
+    .wrap{
+      height:100%; display:flex; flex-direction:column; gap:24px; padding:28px;
+    }
+    header{
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .title{
+      display:flex; align-items:center; gap:14px;
+    }
+    .logo{
+      width:46px; height:46px; border-radius:14px; background:linear-gradient(160deg,#4f66ff 0%, #a163f5 100%);
+      display:grid; place-items:center; box-shadow:var(--shadow);
+      font-weight:700;
+    }
+    .logo span{font-size:26px}
+    .subtitle{color:var(--muted); font-size:14px; margin-top:4px}
+    .grid{
+      display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:24px; align-items:stretch; flex:1;
+      min-height: 360px;
+    }
+    .sep{
+      width:2px; align-self:center; background:linear-gradient(#0000, var(--sep), #0000);
+      height:60%;
+      border-radius:2px;
+      opacity:.85;
+    }
+    .card{
+      background:linear-gradient(180deg,var(--card), var(--card2));
+      border:1px solid #1b2740; border-radius:var(--radius);
+      padding:22px; display:flex; flex-direction:column; justify-content:space-between;
+      box-shadow:var(--shadow);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .card:hover{ transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.45); border-color:#2a3a60; }
+    .card h2{ margin:0 0 8px 0; font-size:28px; letter-spacing:.4px }
+    .card p{ margin:0; color:var(--muted); font-size:14px }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px; border-radius:999px; background:#0e1628; border:1px solid #233255;
+      font-size:13px; color:var(--muted); margin-bottom:14px;
+    }
+    .icon{
+      width:40px; height:40px; border-radius:12px; display:grid; place-items:center;
+      font-weight:700; color:white;
+      box-shadow: inset 0 -10px 18px rgba(0,0,0,.25), 0 8px 24px rgba(0,0,0,.35);
+      user-select:none;
+    }
+    .icon.s{ background: linear-gradient(160deg, #3a8ef6, var(--brand1)); }
+    .icon.l{ background: linear-gradient(160deg, #8c6cf0, var(--brand2)); }
+    .icon.o{ background: linear-gradient(160deg, #2bd99f, var(--brand3)); }
+    .actions{ display:flex; gap:12px; margin-top:18px; flex-wrap:wrap }
+    .btn{
+      appearance:none; border:none; border-radius:14px; padding:12px 16px; font-weight:700; cursor:pointer;
+      background:#101a2d; color:var(--text); border:1px solid #233255; box-shadow:var(--shadow);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      font-family:inherit; letter-spacing:.3px;
+    }
+    .btn:hover{ transform: translateY(-2px); background:#0f1830; border-color:#2c3c62 }
+    .btn.primary{ background:var(--brand1); border-color:transparent }
+    .btn.primary:hover{ filter:brightness(1.05) }
+    .btn.legacy{ background:var(--brand2) }
+    .btn.ozobot{ background:var(--brand3) }
+    .footer{
+      display:flex; align-items:center; justify-content:flex-end; position:relative;
+      min-height:48px;
+    }
+    .hint{
+      position:absolute; left:0; color:var(--muted); font-size:12px; opacity:.9;
+    }
+    .exit{
+      background:var(--danger); color:white; border:0; padding:12px 18px; font-weight:800; border-radius:14px; cursor:pointer;
+      box-shadow:0 10px 24px rgba(229,57,53,.35);
+      transition: transform .12s ease, filter .12s ease;
+      letter-spacing:.4px;
+    }
+    .exit:hover{ transform: translateY(-2px); filter:brightness(1.04) }
+    .tag{ opacity:.9; font-size:12px; padding:.2em .5em; border-radius:10px; background:#0e1628; border:1px solid #233255; }
+    /* Responsive */
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; gap:16px }
+      .sep{ display:none }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <div class="logo"><span>RL</span></div>
+        <div>
+          <div style="font-weight:700; font-size:24px">Robotics Launcher</div>
+          <div class="subtitle">Fast access to SPIKE & Ozobot. Open in new windows; close with <strong>Ctrl+W</strong>.</div>
+        </div>
+      </div>
+      <div class="tag">Fullscreen friendly</div>
+    </header>
+
+    <main class="grid">
+      <!-- SPIKE -->
+      <section class="card">
+        <div>
+          <div class="pill"><div class="icon s">S</div> LEGO® Education SPIKE</div>
+          <h2>SPIKE (Web)</h2>
+          <p>Opens the online SPIKE app in a separate window.</p>
+        </div>
+        <div class="actions">
+          <button class="btn primary" onclick="openApp('https://spike.legoeducation.com/prime/lobby')">Open SPIKE</button>
+          <button class="btn" onclick="copyUrl('https://spike.legoeducation.com/prime/lobby')">Copy URL</button>
+        </div>
+      </section>
+
+      <div class="sep"></div>
+
+      <!-- SPIKE Legacy -->
+      <section class="card">
+        <div>
+          <div class="pill"><div class="icon l">L</div> SPIKE Legacy</div>
+          <h2>SPIKE Legacy (Web)</h2>
+          <p>Launches the legacy SPIKE page (useful for older hubs). If your district has a specific URL, replace it below in code.</p>
+        </div>
+        <div class="actions">
+          <button class="btn legacy" onclick="openApp('https://education.lego.com/en-us/support/spike-legacy/')">Open Legacy</button>
+          <button class="btn" onclick="copyUrl('https://education.lego.com/en-us/support/spike-legacy/')">Copy URL</button>
+        </div>
+      </section>
+
+      <div class="sep"></div>
+
+      <!-- Ozobot -->
+      <section class="card">
+        <div>
+          <div class="pill"><div class="icon o">O</div> Ozobot</div>
+          <h2>Ozobot IDE</h2>
+          <p>Opens Ozobot Blockly IDE in a separate window. Works great on ChromeOS.</p>
+        </div>
+        <div class="actions">
+          <button class="btn ozobot" onclick="openApp('https://ozoblockly.com/editor')">Open Ozobot IDE</button>
+          <button class="btn" onclick="copyUrl('https://ozoblockly.com/editor')">Copy URL</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="hint">Need to leave an app? Press <strong>Ctrl+W</strong> or tap the window’s close button to return here.</div>
+      <button class="exit" onclick="tryExit()">Exit</button>
+    </footer>
+  </div>
+
+  <script>
+    // Open URL in a clean popup window. ChromeOS will treat this as a separate window.
+    function openApp(url){
+      // Features: new window, minimal UI. Actual fullscreen must be user-initiated (F4/F11) by platform policy.
+      const w = window.open(url, '_blank', 'noopener,noreferrer');
+    }
+    // Copy helper
+    async function copyUrl(url){
+      try {
+        await navigator.clipboard.writeText(url);
+        toast('URL copied');
+      } catch {
+        prompt('Copy this URL:', url);
+      }
+    }
+    // Tiny toast
+    function toast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg;
+      Object.assign(t.style,{
+        position:'fixed', bottom:'28px', left:'50%', transform:'translateX(-50%)',
+        background:'#0e1628', color:'#e8eefc', padding:'10px 14px', borderRadius:'12px',
+        border:'1px solid #233255', boxShadow:'0 8px 24px rgba(0,0,0,.35)', zIndex:9999
+      });
+      document.body.appendChild(t);
+      setTimeout(()=>{ t.remove(); }, 1400);
+    }
+    // Exit button — works if the page is opened as an installed app or from a script/window.open
+    function tryExit(){
+      // Best effort close:
+      window.close();
+      // If the browser won’t allow closing this tab, at least hint:
+      toast('If this tab doesn’t close, press Ctrl+W.');
+    }
+  </script>
+</body>
+</html>
