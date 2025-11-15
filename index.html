@@ -213,5 +213,11 @@
       toast('If this tab doesn’t close, press Ctrl+W.');
     }
   </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('Service Worker registered'));
+  }
+</script>
 </body>
 </html>
