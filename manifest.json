@@ -1,8 +1,9 @@
 {
-  "name": "CN Robotics Kiosk",
-  "short_name": "CN Robotics",
-  "start_url": "/cnrobotics/",
+  "name": "Robotics Launcher",
+  "short_name": "RL",
+  "description": "Launcher for Code Ninjas Academies, LEGO SPIKE 3, and Ozobot",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#0b1220",
   "theme_color": "#1976d2"
 }
