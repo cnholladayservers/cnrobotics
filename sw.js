@@ -1,10 +1,11 @@
-self.addEventListener('install', (event) => {
-  console.log('Service worker installed');
+self.addEventListener('install', event => {
+  event.waitUntil(self.skipWaiting());
 });
 
-self.addEventListener('fetch', (event) => {
-  // Simple network-first fetch strategy
-  event.respondWith(
-    fetch(event.request).catch(() => caches.match(event.request))
-  );
+self.addEventListener('activate', event => {
+  event.waitUntil(self.clients.claim());
+});
+
+self.addEventListener('fetch', event => {
+  // optional: you can cache files here if desired
 });
