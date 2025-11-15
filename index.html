@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1976d2">
 <meta charset="utf-8">
 <title>Robotics Launcher</title>
 <link rel="icon" href="favicon.ico">
@@ -65,7 +67,12 @@ header{display:flex; align-items:center; justify-content:space-between;}
 </style>
 </head>
 <body>
-
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(() => console.log('Service Worker registered'));
+}
+</script>
 <div class="wrap" id="launcher">
   <header>
     <div class="title">
