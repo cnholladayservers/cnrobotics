@@ -14,7 +14,7 @@
       <div class="logo"><span>RL</span></div>
       <div>
         <div style="font-weight:700; font-size:24px">Robotics Launcher</div>
-        <div class="subtitle">Embedded CN Academies + SPIKE 3 & Ozobot. Exit protected by PIN.</div>
+        <div class="subtitle">Embedded CN Academies + SPIKE 3 & Ozobot.</div>
       </div>
     </div>
     <div class="tag">Fullscreen friendly</div>
@@ -62,43 +62,13 @@
       </div>
     </section>
   </main>
-
-  <footer class="footer">
-    <div class="hint">Exit protected by PIN</div>
-    <button class="exit" onclick="showKeypad()">Exit</button>
-  </footer>
 </div>
 
 <!-- Embedded iframe + home button -->
 <button id="homeBtn" onclick="closeEmbed()">Home</button>
 <iframe id="embedFrame"></iframe>
 
-<!-- Keypad overlay -->
-<div class="keypad-overlay" id="keypad">
-  <div class="keypad-title">Enter Passcode</div>
-  <div class="keypad-display" id="pinDisplay"></div>
-  <div class="keypad-keys">
-    <button onclick="pressKey('1')">1</button>
-    <button onclick="pressKey('2')">2</button>
-    <button onclick="pressKey('3')">3</button>
-    <button onclick="pressKey('4')">4</button>
-    <button onclick="pressKey('5')">5</button>
-    <button onclick="pressKey('6')">6</button>
-    <button onclick="pressKey('7')">7</button>
-    <button onclick="pressKey('8')">8</button>
-    <button onclick="pressKey('9')">9</button>
-    <button class="del" onclick="pressKey('del')">⌫</button>
-    <button onclick="pressKey('0')">0</button>
-  </div>
-  <div class="keypad-buttons">
-    <button class="cancel" onclick="hideKeypad()">Cancel</button>
-    <button class="confirm" id="confirmBtn" onclick="checkPIN()" disabled>Confirm</button>
-  </div>
-</div>
-
 <script>
-const correctPIN="052605"; 
-let enteredPIN="";
 const iframe=document.getElementById('embedFrame');
 const homeBtn=document.getElementById('homeBtn');
 const launcher=document.getElementById('launcher');
@@ -116,47 +86,32 @@ function closeEmbed(){
   launcher.style.display='flex';
 }
 
-function showKeypad(){
-  enteredPIN=""; 
-  document.getElementById('pinDisplay').textContent="";
-  document.getElementById('keypad').style.display='flex'; 
-  document.getElementById('confirmBtn').disabled=true;
-}
-function hideKeypad(){
-  enteredPIN=""; 
-  document.getElementById('pinDisplay').textContent=""; 
-  document.getElementById('keypad').style.display='none';
-}
-function pressKey(k){ 
-  if(k==='del'){ enteredPIN=enteredPIN.slice(0,-1);} 
-  else if(enteredPIN.length<6){ enteredPIN+=k;} 
-  document.getElementById('pinDisplay').textContent='*'.repeat(enteredPIN.length); 
-  document.getElementById('confirmBtn').disabled = enteredPIN.length!==6;
-}
-function checkPIN(){ 
-  if(enteredPIN===correctPIN){ window.close(); } 
-  else{ toast('Incorrect PIN'); enteredPIN=""; document.getElementById('pinDisplay').textContent=""; document.getElementById('confirmBtn').disabled=true;}
-}
-
 async function copyUrl(url){ 
-  try{ await navigator.clipboard.writeText(url); toast('URL copied'); } 
+  try{ await navigator.clipboard.writeText(url); } 
   catch{ prompt('Copy this URL:',url);}
 }
-function toast(msg){ 
-  const t=document.createElement('div'); 
-  t.textContent=msg; 
-  Object.assign(t.style,{position:'fixed', bottom:'28px', left:'50%', transform:'translateX(-50%)', background:'#0e1628', color:'#e8eefc', padding:'10px 14px', borderRadius:'12px', border:'1px solid #233255', boxShadow:'0 8px 24px rgba(0,0,0,.35)', zIndex:9999}); 
-  document.body.appendChild(t); 
-  setTimeout(()=>{t.remove()},1400);
-}
 
-// Opens tools in controlled popups
+// Open SPIKE/Ozobot in controlled popup
 function openTool(url){
   const popupName = "kiosk_" + (new URL(url)).hostname.replace(/\W/g,'_');
   const features = "width=1200,height=800,toolbar=no,menubar=no,location=no,status=no,resizable=yes";
   const win = window.open(url, popupName, features);
-  if(!win) alert("Popup blocked! Allow popups for this site.");
+  if(!win) return;
 }
+
+// Silent Shift×5 admin exit
+let shiftCount = 0;
+let lastShift = 0;
+document.addEventListener("keydown", e=>{
+  const now = Date.now();
+  if(e.key === "Shift"){
+    if(now - lastShift < 800) shiftCount++; else shiftCount=1;
+    lastShift=now;
+    if(shiftCount>=5){
+      window.close();
+    }
+  }
+});
 </script>
 </body>
 </html>
